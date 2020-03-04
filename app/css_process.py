@@ -16,6 +16,7 @@ class CssProcess:
     REPLACE_DIC = {"\n": "",
                    ", ": ",",
                    ": ":":",
+                   " {":"{",
                    "  ": ""}
     _base = None
     _body = None
@@ -55,6 +56,24 @@ class CssProcess:
                 file_list[index] = '{}{}'.format(self._base, fl)
                 file_list[index] = file_list[index].replace('//', '/')
         return file_list
+
+    def parse_css_element_on_body(self, material_list):
+        style = list();
+        for ml in material_list:
+            RE_CSS_PARSE = '[^\.\#]({cls}{frmt})'.format(
+                cls='{}'.format(ml), frmt='[\s|a-z0-9]*?\{.*?\}'
+            )
+            RE_CSS_PARSE = re.compile(RE_CSS_PARSE, re.MULTILINE|re.DOTALL|re.IGNORECASE)
+            cs_list = RE_CSS_PARSE.findall(self._body)
+            if not (cs_list):
+                continue
+            for cs in cs_list:
+                tmp = cs
+                for i, j in self.REPLACE_DIC.items():
+                    tmp = tmp.replace(i, j);
+                style.append(tmp)
+
+        return style
 
     def parse_css_id_on_body(self, material_list):
         style = list();

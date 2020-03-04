@@ -14,11 +14,18 @@ if __name__ == '__main__':
    <link rel="stylesheet" href="/css/main.min.css" type="text/css" />
    <link rel="preload" as="style" onload="this.rel='stylesheet'" href="https://www.eyzi.net/assets/css/font.awesome.min.css?display=swap&v=4" type="text/css">
    <style>
-    div {
+    div{
         background:#fff;
+        border-radius: 14px;
+    }
+    div h2 {
+        background:#fff;
+        border-radius: 14px;
     }
     p {
         font-weight:10px;
+        margin: 0 auto;
+        display: block;
     }
     .title{background-color:#fff;color:#000}
     .sister {
@@ -100,11 +107,16 @@ if __name__ == '__main__':
  </html>
     """
     cp = CssProcess(DOMAIN, body)
-    print(cp.get_element_list())
-    print(cp.get_css_file_list())
+    element_list = cp.get_element_list()
+    print(element_list)
+    print(cp.parse_css_element_on_body(element_list))
+    print("----------------------")
     class_list = cp.get_class_list()
     print(class_list)
     print(cp.parse_css_class_on_body(class_list))
-    id_list = cp.get_id_list()
-    print(id_list)
-    print(cp.parse_css_id_on_body(id_list))
+    print("----------------------")
+    #id_list = cp.get_id_list()
+    #print(id_list)
+    #print(cp.parse_css_id_on_body(id_list))
+    #print("----------------------")
+    #print(cp.get_css_file_list())
