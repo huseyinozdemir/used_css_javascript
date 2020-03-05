@@ -18,6 +18,7 @@ class CssProcess:
                    ": ":":",
                    " {":"{",
                    "  ": ""}
+    EXCEPT_ELEMENT = ['script']
     _base = None
     _body = None
 
@@ -60,8 +61,11 @@ class CssProcess:
     def parse_css_element_on_body(self, material_list):
         style = list();
         for ml in material_list:
+            if ml in self.EXCEPT_ELEMENT:
+                continue
             RE_CSS_PARSE = '[^\.\#]({cls}{frmt})'.format(
-                cls='{}'.format(ml), frmt='[\s|a-z0-9]*?\{.*?\}'
+                #cls='{}'.format(ml), frmt='[\s|a-z0-9]*?\{.*?\}'
+                cls='{}'.format(ml), frmt='[\sa-z0-9]*?\{.*?\}'
             )
             RE_CSS_PARSE = re.compile(RE_CSS_PARSE, re.MULTILINE|re.DOTALL|re.IGNORECASE)
             cs_list = RE_CSS_PARSE.findall(self._body)
@@ -79,7 +83,7 @@ class CssProcess:
         style = list();
         for ml in material_list:
             RE_CSS_PARSE = '({cls}{frmt})'.format(
-                cls='\#{}'.format(ml), frmt='.*?\{.*?\}'
+                cls='#{}'.format(ml), frmt='[^"].*?\{.*?\}'
             )
             RE_CSS_PARSE = re.compile(RE_CSS_PARSE, re.MULTILINE|re.DOTALL)
             cs_list = RE_CSS_PARSE.findall(self._body)
