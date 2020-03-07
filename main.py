@@ -9,9 +9,6 @@ ERROR_NO_TARGET = 'python main.py http://abc.com/page.html http://abc.com'
 # debug 1
 DEBUG = 0
 
-# static file
-# body = open('input/test.html', 'r').read()
-
 
 def set_out(input_list):
     result = ''
@@ -19,9 +16,11 @@ def set_out(input_list):
         result += il
     return result
 
+
 if __name__ == '__main__':
     if DEBUG:
         body = open('input/test.html', 'r').read()
+        domain = sys.argv[2:][0]
     else:
         if len(sys.argv) < 2:
             sys.stderr.write('{}\n'.format(ERROR_NO_TARGET))
@@ -39,5 +38,4 @@ if __name__ == '__main__':
     out += set_out(cp.parse_css_element_on_body(element_list))
     out += set_out(cp.parse_css_class_on_body(class_list))
     out += set_out(cp.parse_css_id_on_body(id_list))
-
     print(out)
